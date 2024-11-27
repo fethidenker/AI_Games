@@ -18,6 +18,7 @@ public class ArcherUnitManager : MonoBehaviour
     public Vector3 unitCenter;
     private bool anySoldierEngaged = false; 
     public bool isPanicked = false;
+    public bool isRun = false;
 
     private void Awake()
     {
@@ -93,6 +94,11 @@ public class ArcherUnitManager : MonoBehaviour
         unitCenter = CalculateGroupCenter();
         Panic(unitCenter);
 
+        if (isRun)
+        {
+
+        }
+
         if (isPanicked == false)
         {
             anySoldierEngaged = false; 
@@ -112,6 +118,7 @@ public class ArcherUnitManager : MonoBehaviour
 
                         if (distance <= attackRange)
                         {
+                            isRun = true;
                             //soldierHealth.Attack(nearestEnemy);  // Attack the nearest enemy
                         }
                         else if (distance <= engageRange)
@@ -176,7 +183,6 @@ public class ArcherUnitManager : MonoBehaviour
         NavMeshAgent agent = soldier.GetComponent<NavMeshAgent>();
         if (agent != null && agent.isActiveAndEnabled)
         {
-            Debug.Log("yep");
             agent.SetDestination(position);
         }
     }
@@ -295,6 +301,8 @@ public class ArcherUnitManager : MonoBehaviour
             isPanicked =false;
         }
     }
+
+
 
     private Vector3 CalculateEnemiesCenter(Collider[] colliders)
     {

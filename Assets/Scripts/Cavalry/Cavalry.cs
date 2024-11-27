@@ -157,7 +157,7 @@ public class Cavalry : MonoBehaviour
             if (enemy.tag == "BlueArcher" || enemy.tag == "RedArcher")
             {
 
-                Cavalry enemySoldier = enemy.GetComponent<Cavalry>();
+                Archer enemySoldier = enemy.GetComponent<Archer>();
                 if (enemySoldier != null)
                 {
                     if (specialAttack != 0)

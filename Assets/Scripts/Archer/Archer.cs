@@ -12,11 +12,12 @@ public class Archer : MonoBehaviour
     private float elapsedSeconds = 0f;
 
     public List<string> enemyTag = new List<string>();
+    public float runRange = 5f;
     public float attackRangeSoldier = 10f;  
     public float engageRangeSoldier = 20f;  // Engagement range (move towards enemy)
 
-    public int health = 200;
-    //public int attackDamage = 10;  // Set attack damage to 10
+    public int health = 150;
+    public int attackDamage = 5;  // Set attack damage to 10
     public float attackCooldown = 2f;
     public bool isPanicked = false; // New flag for panic mode
     public float normalSpeed = 3.5f; // Default NavMeshAgent speed
@@ -54,10 +55,12 @@ public class Archer : MonoBehaviour
         if (nearestEnemy != null)
         {
             float distance = Vector3.Distance(transform.position, nearestEnemy.transform.position);
-
-            if (distance <= attackRangeSoldier)
+            if (distance <= runRange)
             {
-                // Stop moving and attack the enemy
+                Attack(nearestEnemy);
+            }
+            else if (distance <= attackRangeSoldier)
+            {
                 if (navMeshAgent != null && navMeshAgent.isActiveAndEnabled)
                 {
                     navMeshAgent.SetDestination(transform.position); // Stop the agent
@@ -101,40 +104,40 @@ public class Archer : MonoBehaviour
         return nearestEnemy;
     }
 
-    //public void Attack(GameObject enemy)
-    //{
-    //    if (Time.time - lastAttackTime >= attackCooldown)
-    //    {
-    //        if (enemy.tag == "BlueSoldier" || enemy.tag == "RedSoldier")
-    //        {
-    //            SoldierHealth enemySoldier = enemy.GetComponent<SoldierHealth>();
-    //            if (enemySoldier != null)
-    //            {
-    //                enemySoldier.TakeDamage(attackDamage);
-    //            }
-    //            lastAttackTime = Time.time;
+    public void Attack(GameObject enemy)
+    {
+        if (Time.time - lastAttackTime >= attackCooldown)
+        {
+            if (enemy.tag == "BlueSoldier" || enemy.tag == "RedSoldier")
+            {
+                SoldierHealth enemySoldier = enemy.GetComponent<SoldierHealth>();
+                if (enemySoldier != null)
+                {
+                    enemySoldier.TakeDamage(attackDamage);
+                }
+                lastAttackTime = Time.time;
 
-    //        }
-    //        if (enemy.tag == "BlueCavalry" || enemy.tag == "RedCavalry")
-    //        {
-    //            Cavalry enemySoldier = enemy.GetComponent<Cavalry>();
-    //            if (enemySoldier != null)
-    //            {
-    //                enemySoldier.TakeDamage(attackDamage);
-    //            }
-    //            lastAttackTime = Time.time;
-    //        }
-    //        //if (enemy.tag == "BlueArcher" || enemy.tag == "RedArcher")
-    //        //{
-    //        //    Archer enemySoldier = enemy.GetComponent<Archer>();
-    //        //    if (enemySoldier != null)
-    //        //    {
-    //        //        enemySoldier.TakeDamage(attackDamage);
-    //        //    }
-    //        //    lastAttackTime = Time.time;
-    //        //}
-    //    }
-    //}
+            }
+            if (enemy.tag == "BlueCavalry" || enemy.tag == "RedCavalry")
+            {
+                Cavalry enemySoldier = enemy.GetComponent<Cavalry>();
+                if (enemySoldier != null)
+                {
+                    enemySoldier.TakeDamage(attackDamage);
+                }
+                lastAttackTime = Time.time;
+            }
+            if (enemy.tag == "BlueArcher" || enemy.tag == "RedArcher")
+            {
+                Archer enemySoldier = enemy.GetComponent<Archer>();
+                if (enemySoldier != null)
+                {
+                    enemySoldier.TakeDamage(attackDamage);
+                }
+                lastAttackTime = Time.time;
+            }
+        }
+    }
 
     public void TakeDamage(int damage)
     {
