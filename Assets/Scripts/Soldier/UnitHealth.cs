@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class UnitHealth : MonoBehaviour
 {
-    public Slider healthSlider;    // Reference to the health slider UI
     public List<GameObject> soldiers;
-    public int maxHealth = 1800;    // Maximum health of the unit
-    private int currentHealth;     // The current total health of all soldiers
+    public int maxHealth = 1800;    
+    private int currentHealth;
 
-    public Transform healthBar;  // Reference to the health bar Canvas
+    public Slider healthSlider;
+    public Transform healthBar;  
     public Image bannerIcon;
-    public float heightOffset = 2f;  // Offset to position health bar above the unit
+    public float heightOffset = 2f;  
     public float bannerOffset = 0.5f;
     public float bannerOppacity = 0.8f;
 
@@ -42,10 +42,8 @@ public class UnitHealth : MonoBehaviour
 
     private void Update()
     {
-        // Recalculate the total health in case any soldier's health has changed
         currentHealth = CalculateTotalHealth();
 
-        // Update the health slider if needed
         if (healthSlider != null && healthSlider.value != currentHealth)
         {
             healthSlider.value = currentHealth;
@@ -90,7 +88,6 @@ public class UnitHealth : MonoBehaviour
         return totalHealth;
     }
 
-    // Position the health bar above the unit and make it face the camera
     private void PositionHealthBar()
     {
         if (healthBar == null) return;

@@ -59,16 +59,14 @@ public class Cavalry : MonoBehaviour
 
             if (distance <= attackRangeSoldier)
             {
-                // Stop moving and attack the enemy
                 if (navMeshAgent != null && navMeshAgent.isActiveAndEnabled)
                 {
-                    navMeshAgent.SetDestination(transform.position); // Stop the agent
+                    navMeshAgent.SetDestination(transform.position); 
                 }
-                Attack(nearestEnemy);
+                //Attack(nearestEnemy, false);
             }
             else if (distance <= engageRangeSoldier)
             {
-                // Move toward the enemy if within detection range but outside attack range
                 if (navMeshAgent != null && navMeshAgent.isActiveAndEnabled)
                 {
                     navMeshAgent.SetDestination(nearestEnemy.transform.position);
@@ -102,7 +100,7 @@ public class Cavalry : MonoBehaviour
         return nearestEnemy;
     }
 
-    public void Attack(GameObject enemy)
+    /*public void Attack(GameObject enemy)
     {
         if(Time.time - lastSpecialDamage <= specialRecharge)
         {
@@ -177,6 +175,60 @@ public class Cavalry : MonoBehaviour
                 }
             }
 
+        }
+    }*/
+
+    public void Attack(GameObject enemy, bool isCharge)
+    {
+        if (Time.time - lastAttackTime >= attackCooldown)
+        {
+            if (enemy.tag == "BlueSoldier" || enemy.tag == "RedSoldier")
+            {
+                SoldierHealth enemySoldier = enemy.GetComponent<SoldierHealth>();
+                if (enemySoldier != null)
+                {
+                    if (isCharge)
+                    {
+                        enemySoldier.TakeDamage(attackDamage*3);
+                    }
+                    else
+                    {
+                        enemySoldier.TakeDamage(attackDamage);
+                    }
+                }
+            }
+            else if (enemy.tag == "BlueCavalry" || enemy.tag == "RedCavalry")
+            {
+
+                Cavalry enemySoldier = enemy.GetComponent<Cavalry>();
+                if (enemySoldier != null)
+                {
+                    if (isCharge)
+                    {
+                        enemySoldier.TakeDamage(attackDamage * 3);
+                    }
+                    else
+                    {
+                        enemySoldier.TakeDamage(attackDamage);
+                    }
+                }
+            }
+            if (enemy.tag == "BlueArcher" || enemy.tag == "RedArcher")
+            {
+                Archer enemySoldier = enemy.GetComponent<Archer>();
+                if (enemySoldier != null)
+                {
+                    if (isCharge)
+                    {
+                        enemySoldier.TakeDamage(attackDamage * 3);
+                    }
+                    else
+                    {
+                        enemySoldier.TakeDamage(attackDamage);
+                    }
+                }
+            }
+            lastAttackTime = Time.time;
         }
     }
 

@@ -44,8 +44,6 @@ public class Archer : MonoBehaviour
             enemyTag.Add("RedCavalry");
             enemyTag.Add("RedArcher");
         }
-
-
     }
 
     void Update()
@@ -57,20 +55,18 @@ public class Archer : MonoBehaviour
             float distance = Vector3.Distance(transform.position, nearestEnemy.transform.position);
             if (distance <= runRange)
             {
-                Attack(nearestEnemy);
+                //Attack(nearestEnemy);
             }
             else if (distance <= attackRangeSoldier)
             {
                 if (navMeshAgent != null && navMeshAgent.isActiveAndEnabled)
                 {
-                    navMeshAgent.SetDestination(transform.position); // Stop the agent
+                    navMeshAgent.SetDestination(transform.position); 
                     ShootBow();
                 }
-                
             }
             else if (distance <= engageRangeSoldier)
             {
-                // Move toward the enemy if within detection range but outside attack range
                 if (navMeshAgent != null && navMeshAgent.isActiveAndEnabled)
                 {
                     navMeshAgent.SetDestination(nearestEnemy.transform.position);
@@ -100,7 +96,6 @@ public class Archer : MonoBehaviour
                 }
             }
         }
-
         return nearestEnemy;
     }
 
@@ -116,7 +111,6 @@ public class Archer : MonoBehaviour
                     enemySoldier.TakeDamage(attackDamage);
                 }
                 lastAttackTime = Time.time;
-
             }
             if (enemy.tag == "BlueCavalry" || enemy.tag == "RedCavalry")
             {
@@ -181,25 +175,4 @@ public class Archer : MonoBehaviour
             elapsedSeconds = 0f;
         }
     }
-
-    /*public void ShootBow()
-    {
-        elapsedSeconds += Time.deltaTime;
-
-        if (elapsedSeconds > 1f)
-        {
-
-            Vector3 arrowDirection = new Vector3(0, 0.5f, 0.5f);
-
-            GameObject arrow = Instantiate(prefabArrow, transform.position, transform.rotation);
-            arrow.GetComponent<Rigidbody>().AddRelativeForce(700f * arrowDirection);
-
-            Physics.IgnoreCollision(arrow.GetComponent<Collider>(), GetComponent<Collider>());
-
-            elapsedSeconds = 0f;
-        }
-    }*/
-
-
-
 }

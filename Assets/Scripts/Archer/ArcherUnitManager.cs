@@ -16,9 +16,10 @@ public class ArcherUnitManager : MonoBehaviour
     public float attackRange = 2f;     
 
     public Vector3 unitCenter;
-    private bool anySoldierEngaged = false; 
+    private bool anySoldierEngaged = false;
+    private bool hasArrangedAfterEngagement = false;
     public bool isPanicked = false;
-    public bool isRun = false;
+    //public bool isRun = false;
 
     private void Awake()
     {
@@ -53,8 +54,6 @@ public class ArcherUnitManager : MonoBehaviour
             allyTag.Add("RedSoldier");
             allyTag.Add("RedCavalry");
             allyTag.Add("RedArcher");
-
-            //enemyTag = "BlueSoldier";
         }
         else if (gameObject.CompareTag("BlueArcherUnit"))
         {
@@ -62,11 +61,9 @@ public class ArcherUnitManager : MonoBehaviour
             enemyTag.Add("RedCavalry");
             enemyTag.Add("RedArcher");
 
-
             allyTag.Add("BlueSoldier");
             allyTag.Add("BlueCavalry");
             allyTag.Add("BlueArcher");
-            //enemyTag = "RedSoldier";
         }
 
         ArrangeGridInPlace();
@@ -74,16 +71,14 @@ public class ArcherUnitManager : MonoBehaviour
         
     }
 
-    private bool hasArrangedAfterEngagement = false;  // Flag to ensure ArrangeGrid is called only once after engagement
-
     private void Update()
     {
 
-        for (int i = soldiers.Count - 1; i >= 0; i--) // Iterate backward
+        for (int i = soldiers.Count - 1; i >= 0; i--)
         {
             if (soldiers[i] == null || !soldiers[i].activeInHierarchy)
             {
-                soldiers.RemoveAt(i); // Safely remove the soldier
+                soldiers.RemoveAt(i); 
             }
         }
         if (soldiers.Count == 0) 
@@ -94,15 +89,48 @@ public class ArcherUnitManager : MonoBehaviour
         unitCenter = CalculateGroupCenter();
         Panic(unitCenter);
 
-        if (isRun)
-        {
-
-        }
 
         if (isPanicked == false)
         {
-            anySoldierEngaged = false; 
+            HandleEngagement();
+        }
+    }
+    private void HandleEngagement()
+    {
+        anySoldierEngaged = false;
 
+        foreach (GameObject soldier in soldiers)
+        {
+            if (soldier == null) continue;
+
+            Archer soldierHealth = soldier.GetComponent<Archer>();
+            if (soldierHealth != null)
+            {
+                GameObject nearestEnemy = soldierHealth.FindNearestEnemy();
+
+                if (nearestEnemy != null)
+                {
+                    float distance = Vector3.Distance(soldier.transform.position, nearestEnemy.transform.position);
+
+                    if (distance <= attackRange)
+                    {
+                        soldierHealth.Attack(nearestEnemy);
+                    }
+                    else if (distance <= engageRange)
+                    {
+                        anySoldierEngaged = true;
+
+                        NavMeshAgent agent = soldier.GetComponent<NavMeshAgent>();
+                        if (agent != null && agent.isActiveAndEnabled)
+                        {
+                            agent.SetDestination(nearestEnemy.transform.position);
+                        }
+                    }
+                }
+            }
+        }
+        if (anySoldierEngaged)
+        {
             foreach (GameObject soldier in soldiers)
             {
                 if (soldier == null) continue;
@@ -111,69 +139,26 @@ public class ArcherUnitManager : MonoBehaviour
                 if (soldierHealth != null)
                 {
                     GameObject nearestEnemy = soldierHealth.FindNearestEnemy();
-
                     if (nearestEnemy != null)
                     {
-                        float distance = Vector3.Distance(soldier.transform.position, nearestEnemy.transform.position);
-
-                        if (distance <= attackRange)
+                        NavMeshAgent agent = soldier.GetComponent<NavMeshAgent>();
+                        if (agent != null && agent.isActiveAndEnabled)
                         {
-                            isRun = true;
-                            //soldierHealth.Attack(nearestEnemy);  // Attack the nearest enemy
-                        }
-                        else if (distance <= engageRange)
-                        {
-                            anySoldierEngaged = true;  // Flag that at least one soldier is engaged
-
-                            NavMeshAgent agent = soldier.GetComponent<NavMeshAgent>();
-                            if (agent != null && agent.isActiveAndEnabled)
-                            {
-                                agent.SetDestination(nearestEnemy.transform.position);
-                            }
+                            agent.SetDestination(nearestEnemy.transform.position);
                         }
                     }
                 }
             }
-
-            
-            // If any soldier is engaged, make all soldiers move toward their nearest enemies
-            if (anySoldierEngaged)
+            hasArrangedAfterEngagement = false;
+        }
+        else
+        {
+            if (!hasArrangedAfterEngagement)
             {
-
-                foreach (GameObject soldier in soldiers)
-                {
-                    if (soldier == null) continue;
-
-                    Archer soldierHealth = soldier.GetComponent<Archer>();
-                    if (soldierHealth != null)
-                    {
-                        GameObject nearestEnemy = soldierHealth.FindNearestEnemy();
-                        if (nearestEnemy != null)
-                        {
-                            // Move all soldiers towards the nearest enemy
-                            NavMeshAgent agent = soldier.GetComponent<NavMeshAgent>();
-                            if (agent != null && agent.isActiveAndEnabled)
-                            {
-                                agent.SetDestination(nearestEnemy.transform.position);
-                            }
-                        }
-                    }
-                }
-
-
-                hasArrangedAfterEngagement = false;
-            }
-            else
-            {
-                if (!hasArrangedAfterEngagement)
-                {
-                    ArrangeGrid(CalculateGroupCenter(), 3);
-                    hasArrangedAfterEngagement = true;
-                }
+                ArrangeGrid(CalculateGroupCenter(), 3);
+                hasArrangedAfterEngagement = true;
             }
         }
-
-        
     }
 
     private void SetDestination(GameObject soldier, Vector3 position)
@@ -191,11 +176,10 @@ public class ArcherUnitManager : MonoBehaviour
     {
         int cols = Mathf.CeilToInt((float)soldiers.Count / rows);
 
-        List<GameObject> activeSoldiers = soldiers.FindAll(soldier => soldier != null); // Filter out dead soldiers
+        List<GameObject> activeSoldiers = soldiers.FindAll(soldier => soldier != null);
 
         for (int i = 0; i < activeSoldiers.Count; i++)
         {
-            // Skip destroyed soldiers
             if (activeSoldiers[i] == null) continue;
 
             int row = i / cols;
@@ -208,7 +192,6 @@ public class ArcherUnitManager : MonoBehaviour
 
     public void MoveFormation(Vector3 targetPosition)
     {
-        Debug.Log("Move Formatin Duches");
         Vector3 groupCenter = CalculateGroupCenter();
 
         foreach (GameObject soldier in soldiers)
@@ -226,7 +209,6 @@ public class ArcherUnitManager : MonoBehaviour
     {
         if (soldiers.Count == 0) return;
 
-        // Calculate the group's center based on initial positions
         Vector3 groupCenter = CalculateGroupCenter();
         int rows = Mathf.CeilToInt(Mathf.Sqrt(soldiers.Count));
         int cols = Mathf.CeilToInt((float)soldiers.Count / rows);
@@ -245,12 +227,11 @@ public class ArcherUnitManager : MonoBehaviour
     }
     private void Panic(Vector3 startPosition)
     {
-        float panicRadius = 15f; // Radius to check for allies and enemies
+        float panicRadius = 15f; 
         float fleeRadius = 30f;
         int enemyCount = 0;
         int friendCount = 0;
 
-        // Check for soldiers within the radius
         Collider[] colliders = Physics.OverlapSphere(startPosition, panicRadius);
 
         foreach (Collider collider in colliders)
@@ -266,17 +247,11 @@ public class ArcherUnitManager : MonoBehaviour
                 enemyCount++;
             }
         }
-
-
-        // Check panic condition: enemies outnumber friends 3:1
         if (enemyCount >= 2 * friendCount)
         {
-            Debug.Log("Here but archer");
-            // Move soldiers away from the center of enemies
             Vector3 fleeDirection = (startPosition - CalculateEnemiesCenter(colliders)).normalized;
             Vector3 fleePosition = startPosition + fleeDirection * fleeRadius;
             isPanicked = true;
-
             MoveFormation(fleePosition);
 
             foreach (var soldier in soldiers)
@@ -286,8 +261,6 @@ public class ArcherUnitManager : MonoBehaviour
                     soldier.GetComponent<NavMeshAgent>().speed = 5f;
                 }
             }
-                
-
         }
         else
         {
@@ -301,8 +274,33 @@ public class ArcherUnitManager : MonoBehaviour
             isPanicked =false;
         }
     }
+    /*private void RunAway(Vector3 startPosition)
+    {
+        float panicRadius = 15f;
+        float fleeRadius = 30f;
+        int enemyCount = 0;
+        int friendCount = 0;
+        Collider[] colliders = Physics.OverlapSphere(startPosition, panicRadius);
 
+        foreach (Collider collider in colliders)
+        {
+            GameObject obj = collider.gameObject;
 
+            if (allyTag.Contains(obj.tag))
+            {
+                friendCount++;
+            }
+            else if (enemyTag.Contains(obj.tag))
+            {
+                enemyCount++;
+            }
+        }
+        Vector3 fleeDirection = (startPosition - CalculateEnemiesCenter(colliders)).normalized;
+        Vector3 fleePosition = startPosition + fleeDirection * fleeRadius;
+        MoveFormation(fleePosition);
+        Debug.Log(fleePosition);
+    }*/
+        
 
     private Vector3 CalculateEnemiesCenter(Collider[] colliders)
     {
@@ -313,7 +311,6 @@ public class ArcherUnitManager : MonoBehaviour
         {
             GameObject obj = collider.gameObject;
 
-            // Include only enemies in the center calculation
             if (enemyTag.Contains(obj.tag))
             {
                 enemyCenter += obj.transform.position;
@@ -323,8 +320,6 @@ public class ArcherUnitManager : MonoBehaviour
 
         return enemyCount > 0 ? enemyCenter / enemyCount : Vector3.zero;
     }
-
-
     private Vector3 CalculateGroupCenter()
     {
         if (soldiers.Count == 0) return transform.position;

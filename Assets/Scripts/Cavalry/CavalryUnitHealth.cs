@@ -6,14 +6,14 @@ using UnityEngine.UI;
 
 public class CavalryUnitHealth : MonoBehaviour
 {
-    public Slider healthSlider;    // Reference to the health slider UI
-    public List<GameObject> soldiers;  // List of soldier objects
-    public int maxHealth = 1350;    // Maximum health of the unit
-    private int currentHealth;     // The current total health of all soldiers
+    public Slider healthSlider;   
+    public List<GameObject> soldiers; 
+    public int maxHealth = 1350;   
+    private int currentHealth;  
 
-    public Transform healthBar;  // Reference to the health bar Canvas 
+    public Transform healthBar; 
     public Image bannerIcon;
-    public float heightOffset = 2f;  // Offset to position health bar above the unit
+    public float heightOffset = 2f; 
     public float bannerOffset = 0.5f;
     public float bannerOppacity = 0.8f;
     private void Start()
@@ -45,19 +45,15 @@ public class CavalryUnitHealth : MonoBehaviour
     {
         currentHealth = CalculateTotalHealth();
 
-        // Update the health slider if needed
         if (healthSlider != null && healthSlider.value != currentHealth)
         {
             healthSlider.value = currentHealth;
         }
-
         if (healthBar != null)
         {
             PositionHealthBar();
             PositionBannerIcon();
         }
-
-        // If no soldiers are left or the unit's health is zero, remove the health bar
         if (soldiers.Count == 0 || currentHealth <= 0)
         {
             RemoveHealthBar();
@@ -87,8 +83,6 @@ public class CavalryUnitHealth : MonoBehaviour
 
         return totalHealth;
     }
-
-    // Position the health bar above the unit and make it face the camera
     private void PositionHealthBar()
     {
         if (healthBar == null) return;
@@ -97,7 +91,6 @@ public class CavalryUnitHealth : MonoBehaviour
 
         healthBar.position = groupCenter + new Vector3(0, heightOffset, 0);
     }
-
     private void PositionBannerIcon()
     {
         if (bannerIcon == null || healthBar == null) return;
@@ -113,7 +106,6 @@ public class CavalryUnitHealth : MonoBehaviour
             bannerIcon.color = color;            
         }
     }
-
     private Vector3 CalculateGroupCenter()
     {
         if (soldiers.Count == 0) return transform.position;
@@ -125,7 +117,6 @@ public class CavalryUnitHealth : MonoBehaviour
         }
         return center / soldiers.Count;
     }
-
     private void RemoveHealthBar()
     {
         if (healthBar != null)
