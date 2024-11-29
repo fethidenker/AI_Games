@@ -12,7 +12,7 @@ public class Archer : Soldier
 
     protected override void Start()
     {
-        health = 10;
+        health = 120;
         
         base.Start();
         
