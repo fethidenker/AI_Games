@@ -1053,7 +1053,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 699636774}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef110ff3c00373b47a3a063df0069649, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f4ed0ec78afc014b81937e206911990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyTag: []
@@ -2745,7 +2745,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1605771183}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef110ff3c00373b47a3a063df0069649, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f4ed0ec78afc014b81937e206911990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyTag: []
@@ -3834,5 +3834,4 @@ SceneRoots:
   - {fileID: 1917540805}
   - {fileID: 1584230302}
   - {fileID: 697871087}
-  - {fileID: 1283502379}
   - {fileID: 1714225736}
