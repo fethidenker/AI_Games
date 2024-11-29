@@ -6,7 +6,7 @@ public class Archer : Soldier
     [SerializeField]
     GameObject prefabArrow;
 
-    float arrowVelocity = 600;
+    float arrowVelocity = 700;
     float elapsedSeconds = 0f;
     float landingRadius = 0.5f;
 
@@ -54,4 +54,5 @@ public class Archer : Soldier
             elapsedSeconds = 0;
         }
     }
+
 }

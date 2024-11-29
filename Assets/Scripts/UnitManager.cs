@@ -124,6 +124,7 @@ public class UnitManager : MonoBehaviour
                                 UseCharge();
                                 soldierHealth.Attack(nearestEnemy, isCharge);
                             }
+
                             soldierHealth.Attack(nearestEnemy);  // Attack the nearest enemy
                         }
                         else if (distance <= engageRange)
