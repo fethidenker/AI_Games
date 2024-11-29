@@ -12,7 +12,7 @@ public class UnitManager : MonoBehaviour
     public float spacing = 2f;       
     public List<string> enemyTag = new List<string>();
     public List<string> allyTag = new List<string>();
-    public float engageRange = 3f;   
+    public float engageRange = 10f;   
     public float attackRange = 2f;   
 
     public Vector3 unitCenter;
@@ -74,11 +74,11 @@ public class UnitManager : MonoBehaviour
     private void Update()
     {
 
-        for (int i = soldiers.Count - 1; i >= 0; i--) // Iterate backward
+        for (int i = soldiers.Count - 1; i >= 0; i--)
         {
             if (soldiers[i] == null || !soldiers[i].activeInHierarchy)
             {
-                soldiers.RemoveAt(i); // Safely remove the soldier
+                soldiers.RemoveAt(i);
             }
         }
         if (soldiers.Count == 0) 
@@ -150,8 +150,6 @@ public class UnitManager : MonoBehaviour
                     }
                 }
             }
-
-
             hasArrangedAfterEngagement = false;
         }
         else
@@ -164,7 +162,38 @@ public class UnitManager : MonoBehaviour
         }
     }
 
+    public void HandleFormationMovement(Vector3 targetPosition)
+    {
+        anySoldierEngaged = false;
 
+        foreach (GameObject soldier in soldiers)
+        {
+            if (soldier == null) continue;
+
+            SoldierHealth soldierHealth = soldier.GetComponent<SoldierHealth>();
+            if (soldierHealth != null)
+            {
+                GameObject nearestEnemy = soldierHealth.FindNearestEnemy();
+
+                if (nearestEnemy != null)
+                {
+                    float distance = Vector3.Distance(soldier.transform.position, nearestEnemy.transform.position);
+
+                    if (distance > engageRange)
+                    {
+                        anySoldierEngaged = true;
+
+                        NavMeshAgent agent = soldier.GetComponent<NavMeshAgent>();
+                        if (agent != null && agent.isActiveAndEnabled)
+                        {
+                            agent.SetDestination(nearestEnemy.transform.position);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
 
     private void SetDestination(GameObject soldier, Vector3 position)
     {

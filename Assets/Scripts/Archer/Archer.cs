@@ -14,13 +14,13 @@ public class Archer : MonoBehaviour
     public List<string> enemyTag = new List<string>();
     public float runRange = 5f;
     public float attackRangeSoldier = 10f;  
-    public float engageRangeSoldier = 20f;  // Engagement range (move towards enemy)
+    public float engageRangeSoldier = 20f;  
 
     public int health = 150;
-    public int attackDamage = 5;  // Set attack damage to 10
+    public int attackDamage = 5;  
     public float attackCooldown = 2f;
-    public bool isPanicked = false; // New flag for panic mode
-    public float normalSpeed = 3.5f; // Default NavMeshAgent speed
+    public bool isPanicked = false; 
+    public float normalSpeed = 3.5f;
     public float panicSpeed = 5f;
 
     private float lastAttackTime;
@@ -169,6 +169,7 @@ public class Archer : MonoBehaviour
             Vector3 final = change + arrowDirection;
             final = final.normalized;
             arrow.GetComponent<Rigidbody>().AddForce(arrowVelocity * final);
+            arrow.GetComponent<Arrow>().archerTag = gameObject.tag;
 
             Physics.IgnoreCollision(arrow.GetComponent<Collider>(), GetComponent<Collider>());
 

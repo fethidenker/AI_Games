@@ -118,12 +118,26 @@ public class ArcherUnitManager : MonoBehaviour
                     }
                     else if (distance <= engageRange)
                     {
+                        //anySoldierEngaged = true;
+                        Vector3 direction = (nearestEnemy.transform.position - soldier.transform.position).normalized;
+                        Vector3 stopPosition = nearestEnemy.transform.position - direction * 20f;
+
+                        NavMeshAgent agent = soldier.GetComponent<NavMeshAgent>();
+                        if (agent != null && agent.isActiveAndEnabled)
+                        {
+                            agent.ResetPath();
+                        }
+                    }
+                    else
+                    {
+                        Vector3 direction = (nearestEnemy.transform.position - soldier.transform.position).normalized;
+                        Vector3 stopPosition = nearestEnemy.transform.position - direction * 20f;
                         anySoldierEngaged = true;
 
                         NavMeshAgent agent = soldier.GetComponent<NavMeshAgent>();
                         if (agent != null && agent.isActiveAndEnabled)
                         {
-                            agent.SetDestination(nearestEnemy.transform.position);
+                            agent.SetDestination(stopPosition);
                         }
                     }
                 }
@@ -161,6 +175,38 @@ public class ArcherUnitManager : MonoBehaviour
         }
     }
 
+    public void HandleFormationMovement(Vector3 targetPosition)
+    {
+        anySoldierEngaged = false;
+
+        foreach (GameObject soldier in soldiers)
+        {
+            if (soldier == null) continue;
+
+            Cavalry soldierHealth = soldier.GetComponent<Cavalry>();
+            if (soldierHealth != null)
+            {
+                GameObject nearestEnemy = soldierHealth.FindNearestEnemy();
+
+                if (nearestEnemy != null)
+                {
+                    float distance = Vector3.Distance(soldier.transform.position, nearestEnemy.transform.position);
+
+                    if (distance > engageRange)
+                    {
+                        anySoldierEngaged = true;
+
+                        NavMeshAgent agent = soldier.GetComponent<NavMeshAgent>();
+                        if (agent != null && agent.isActiveAndEnabled)
+                        {
+                            agent.SetDestination(nearestEnemy.transform.position);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
     private void SetDestination(GameObject soldier, Vector3 position)
     {
         if (soldier == null) return;

@@ -898,7 +898,7 @@ GameObject:
   - component: {fileID: 527015209}
   - component: {fileID: 527015208}
   m_Layer: 0
-  m_Name: Blue Unit 1
+  m_Name: Blue Soldier
   m_TagString: BlueSoldierUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -962,13 +962,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 527015207}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.69, y: -1.7658476, z: 35.67}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 13.030832, y: -13.529127, z: 52.11239}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 895008455}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 556308110}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &527090980
 GameObject:
@@ -1073,6 +1073,40 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &556308109
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 556308110}
+  m_Layer: 0
+  m_Name: BlueGeneral
+  m_TagString: BlueArmy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &556308110
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556308109}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.6591672, y: 11.76328, z: -16.44239}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 527015210}
+  - {fileID: 1421729030}
+  - {fileID: 1574032909}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &596425799
 GameObject:
   m_ObjectHideFlags: 0
@@ -1141,12 +1175,12 @@ Transform:
   m_GameObject: {fileID: 596425799}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.0026020561, z: -0, w: 0.99999666}
-  m_LocalPosition: {x: -0.49, y: -1.7658477, z: 1.09}
+  m_LocalPosition: {x: -1.1491672, y: -13.529127, z: 17.53239}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1838495798}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1540308374}
   m_LocalEulerAnglesHint: {x: 0, y: -0.298, z: 0}
 --- !u!1 &697262764
 GameObject:
@@ -2174,12 +2208,12 @@ Transform:
   m_GameObject: {fileID: 1181096808}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.0026020561, z: -0, w: 0.99999666}
-  m_LocalPosition: {x: -7.69, y: -1.7658477, z: 28.12}
+  m_LocalPosition: {x: -8.349167, y: -13.529127, z: 44.562393}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1382470208}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1540308374}
   m_LocalEulerAnglesHint: {x: 0, y: -0.298, z: 0}
 --- !u!114 &1181096812
 MonoBehaviour:
@@ -2426,7 +2460,7 @@ GameObject:
   - component: {fileID: 1421729029}
   - component: {fileID: 1421729028}
   m_Layer: 0
-  m_Name: Blue Cavalry (1)
+  m_Name: Blue Cavalry
   m_TagString: BlueCavalryUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2482,13 +2516,62 @@ Transform:
   m_GameObject: {fileID: 1421729027}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.0026020561, z: -0, w: 0.99999666}
-  m_LocalPosition: {x: 13.12, y: -1.7658477, z: 5.2}
+  m_LocalPosition: {x: 12.460833, y: -13.529127, z: 21.642391}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2112425357}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 556308110}
   m_LocalEulerAnglesHint: {x: 0, y: -0.298, z: 0}
+--- !u!1 &1540308372
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1540308374}
+  - component: {fileID: 1540308373}
+  m_Layer: 0
+  m_Name: RedGeneral
+  m_TagString: RedArmy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1540308373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540308372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5db1f898cef5a1a498fcd448cbf247f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyTag: []
+  allyTag: []
+--- !u!4 &1540308374
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540308372}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.6591672, y: 11.76328, z: -16.44239}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1671256900}
+  - {fileID: 596425802}
+  - {fileID: 1181096811}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1569287192
 GameObject:
   m_ObjectHideFlags: 0
@@ -2679,12 +2762,12 @@ Transform:
   m_GameObject: {fileID: 1574032906}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.0026020561, z: -0, w: 0.99999666}
-  m_LocalPosition: {x: 21.8, y: -1.7658477, z: -0.33}
+  m_LocalPosition: {x: 21.140833, y: -13.529127, z: 16.11239}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 527090981}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 556308110}
   m_LocalEulerAnglesHint: {x: 0, y: -0.298, z: 0}
 --- !u!1 &1584230301
 GameObject:
@@ -2731,7 +2814,7 @@ GameObject:
   - component: {fileID: 1671256901}
   - component: {fileID: 1671256902}
   m_Layer: 0
-  m_Name: Red Unit 1
+  m_Name: Red Soldier
   m_TagString: RedSoldierUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2746,12 +2829,12 @@ Transform:
   m_GameObject: {fileID: 1671256898}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.0026020561, z: -0, w: 0.99999666}
-  m_LocalPosition: {x: 4.02, y: -1.7658477, z: 36.5}
+  m_LocalPosition: {x: 3.3608327, y: -13.529127, z: 52.94239}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1072268437}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1540308374}
   m_LocalEulerAnglesHint: {x: 0, y: -0.298, z: 0}
 --- !u!114 &1671256901
 MonoBehaviour:
@@ -3766,12 +3849,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 963194228}
   - {fileID: 705507995}
-  - {fileID: 1671256900}
-  - {fileID: 527015210}
-  - {fileID: 1181096811}
-  - {fileID: 1421729030}
-  - {fileID: 596425802}
-  - {fileID: 1574032909}
+  - {fileID: 1540308374}
+  - {fileID: 556308110}
   - {fileID: 1917540805}
   - {fileID: 1584230302}
   - {fileID: 697871087}
